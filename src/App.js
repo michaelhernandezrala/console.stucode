@@ -1,7 +1,7 @@
-import Register from "./page/Register.js";
+import Login from "./page/Login.js";
 
 function App() {
-  return <Register />;
+  return <Login />;
 }
 
 export default App;
