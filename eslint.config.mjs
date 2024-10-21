@@ -21,7 +21,6 @@ export default [
     rules: {
       "no-unused-vars": ["error"],
       "react/react-in-jsx-scope": "off",
-      "max-len": ["error", { code: 120 }],
     },
   },
 ];

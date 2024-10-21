@@ -1,5 +1,7 @@
+import Register from "./page/Register.js";
+
 function App() {
-  return <div></div>;
+  return <Register />;
 }
 
 export default App;
