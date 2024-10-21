@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import AuthContent from "../auth/AuthContent.js";
 import AuthHeader from "../auth/AuthHeader.js";
 
