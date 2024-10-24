@@ -9,13 +9,8 @@ function Register() {
     <AuthWrapper title="Únete a StuCode" subtitle="Colabora, aprende y crece con otros desarrolladores">
       <form className="space-y-4">
         <FormControl>
-          <Label htmlFor="firstname">Nombre</Label>
-          <Input name="firstname" type="text" required={true} autoFocus={true} placeholder="John" />
-        </FormControl>
-
-        <FormControl>
-          <Label htmlFor="lastname">Apellido</Label>
-          <Input name="lastname" type="text" required={true} placeholder="Doe" />
+          <Label htmlFor="name">Nombre</Label>
+          <Input name="name" type="text" required={true} autoFocus={true} placeholder="John Doe" />
         </FormControl>
 
         <FormControl>
