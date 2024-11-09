@@ -1,6 +1,6 @@
-import Home from "./page/Home.js";
-import Login from "./page/Login.js";
-import Register from "./page/Register.js";
+import Home from "./pages/Home.js";
+import Login from "./pages/Login.js";
+import Register from "./pages/Register.js";
 
 export default [
   {

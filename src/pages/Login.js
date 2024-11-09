@@ -1,8 +1,8 @@
-import Button from "../components/common/inputs/Button.js";
-import FormControl from "../components/common/inputs/FormControl.js";
-import Input from "../components/common/inputs/Input.js";
-import Label from "../components/common/inputs/Label.js";
-import AuthWrapper from "../components/wrappers/AuthWrapper.js";
+import Button from "../components/common/inputs/Button";
+import FormControl from "../components/common/inputs/FormControl";
+import Input from "../components/common/inputs/Input";
+import Label from "../components/common/inputs/Label";
+import AuthWrapper from "../components/wrappers/AuthWrapper";
 
 function Login() {
   return (
