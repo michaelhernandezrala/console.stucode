@@ -28,6 +28,7 @@ function Register() {
         return;
       }
       toast.success("¡Bienvenido a StuCode! Tu cuenta ha sido creada exitosamente", {
+        autoClose: 1000,
         onClose: () => {
           navigate("/login");
         },
