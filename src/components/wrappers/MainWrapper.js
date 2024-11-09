@@ -12,7 +12,7 @@ function MainWrapper({ title, children }) {
 }
 
 MainWrapper.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 

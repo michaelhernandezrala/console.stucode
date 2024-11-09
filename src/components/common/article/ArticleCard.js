@@ -7,7 +7,7 @@ import NoImageAvailable from "../../../assets/images/no-image-available.png";
 function ArticleCard({ article }) {
   const imageSrc = article.image ? article.image : NoImageAvailable;
   return (
-    <Link to={`/article/${article.id}`} className="block">
+    <Link to={`/users/${article.userId}/articles/${article.id}`} className="block">
       <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
         <div className="md:flex">
           <div className="md:flex-shrink-0">
@@ -34,6 +34,7 @@ function ArticleCard({ article }) {
 ArticleCard.propTypes = {
   article: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     image: PropTypes.string,
