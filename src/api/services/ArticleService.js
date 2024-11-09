@@ -25,4 +25,30 @@ const findById = async (filters) => {
   return HttpClient.get(`/${Endpoints.USERS}/${filters.userId}/${Endpoints.ARTICLES}/${filters.articleId}`);
 };
 
-export default { findAndCountAll, findById };
+/**
+ * Updates a specific article by its ID.
+ *
+ * @param {string} userId - The ID of the user who owns the article.
+ * @param {string} articleId - The ID of the article to update.
+ * @param {object} data - The data to update the article with.
+ * @param {string} data.title - The new title for the article.
+ * @param {string} data.content - The new content for the article.
+ * @param {string} data.image - The new image URL for the article.
+ * @returns {Promise<object>} - The response object containing the updated article details.
+ */
+const update = async (userId, articleId, data) => {
+  return HttpClient.put(`/${Endpoints.USERS}/${userId}/${Endpoints.ARTICLES}/${articleId}`, data);
+};
+
+/**
+ * Deletes an article by its ID.
+ *
+ * @param {string} userId - The ID of the user who owns the article.
+ * @param {string} articleId - The ID of the article to delete.
+ * @returns {Promise<object>} - The response object indicating the result of the delete operation.
+ */
+const deleteById = async (userId, articleId) => {
+  return HttpClient.delete(`/${Endpoints.USERS}/${userId}/${Endpoints.ARTICLES}/${articleId}`);
+};
+
+export default { findAndCountAll, findById, update, deleteById };
