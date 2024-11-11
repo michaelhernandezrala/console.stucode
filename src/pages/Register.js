@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 import UserService from "../api/services/UserService";
@@ -73,6 +73,15 @@ function Register() {
 
         <Button type="submit">Crear cuenta</Button>
       </form>
+
+      <div className="mt-4 text-center">
+        <p>
+          ¿Ya tienes cuenta?{" "}
+          <Link to="/login" className="text-blue-600">
+            Inicia sesión
+          </Link>
+        </p>
+      </div>
       <ToastContainer position="top-right" autoClose={3000} />
     </AuthWrapper>
   );

@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import Markdown from "react-markdown";
 import Modal from "react-modal";
@@ -11,9 +11,11 @@ import UserService from "../api/services/UserService";
 import FormControl from "../components/common/inputs/FormControl";
 import Input from "../components/common/inputs/Input";
 import Label from "../components/common/inputs/Label";
+import { UserContext } from "../components/contexts/UserContext";
 import MainWrapper from "../components/wrappers/MainWrapper";
 
 function Article() {
+  const { id } = useContext(UserContext);
   const { userId, articleId } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState({});
@@ -21,23 +23,23 @@ function Article() {
   const [editedArticle, setEditedArticle] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const canEditOrDelete = userId === id;
+
   useEffect(() => {
     const fetchArticle = async () => {
-      try {
-        Modal.setAppElement("#root");
-        const articleResponse = await ArticleService.findById({ userId, articleId });
-        setArticle(articleResponse.data);
-        setEditedArticle({
-          title: articleResponse.data.title,
-          content: articleResponse.data.content,
-          image: articleResponse.data.image,
-        });
+      Modal.setAppElement("#root");
+      const articleResponse = await ArticleService.findById({ userId, articleId });
 
-        const userResponse = await UserService.findById(userId);
-        setUser(userResponse.data);
-      } catch (error) {
-        console.error("Error fetching article", error);
-      }
+      const userResponse = await UserService.findById(userId);
+
+      setArticle(articleResponse.data);
+      setEditedArticle({
+        title: articleResponse.data.title,
+        content: articleResponse.data.content,
+        image: articleResponse.data.image,
+      });
+
+      setUser(userResponse.data);
     };
 
     fetchArticle();
@@ -94,12 +96,16 @@ function Article() {
               <span>{article.likes}</span>
             </button>
             <div className="flex items-center space-x-1">
-              <button onClick={handleEdit} className="bg-blue-600 text-white px-4 py-1 hover:bg-blue-700">
-                Editar
-              </button>
-              <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-1 hover:bg-red-700">
-                Eliminar
-              </button>
+              {canEditOrDelete && (
+                <>
+                  <button onClick={handleEdit} className="bg-blue-600 text-white px-4 py-1 hover:bg-blue-700">
+                    Editar
+                  </button>
+                  <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-1 hover:bg-red-700">
+                    Eliminar
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </header>

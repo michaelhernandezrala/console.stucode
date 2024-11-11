@@ -8,70 +8,78 @@ import Searcher from "../components/common/filters/Searcher";
 import Select from "../components/common/filters/Select";
 import MainWrapper from "../components/wrappers/MainWrapper";
 
+const cleanFilters = (filters) => {
+  const { find, ...rest } = filters;
+  return { ...rest, find: find || undefined };
+};
+
 function Home() {
   const [articles, setArticles] = useState([]);
   const [totalArticles, setTotalArticles] = useState(0);
-  const [find, setFind] = useState("");
-  const [limit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [order, setOrder] = useState("a-z");
-  const filters = { limit, find, page, order };
+  const [filters, setFilters] = useState({ find: "", limit: 10, page: 0, order: "a-z" });
+  const [loading, setLoading] = useState(false);
+
   const options = [
     { value: "a-z", label: "A-Z" },
     { value: "z-a", label: "Z-A" },
   ];
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        if (!find) {
-          delete filters.find;
-        }
-        const response = await ArticleService.findAndCountAll(filters);
-        setArticles(response.data);
-        setTotalArticles(response.count);
-      } catch (error) {
-        console.error("Error fetching articles:", error);
-      }
-    };
+  const fetchArticles = async () => {
+    setLoading(true);
 
+    const cleanedFilters = cleanFilters(filters);
+    const response = await ArticleService.findAndCountAll(cleanedFilters);
+    setArticles(response.data);
+    setTotalArticles(response.count);
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
     fetchArticles();
-  }, [page, order, find]);
+  }, [filters]);
 
   const handleChangeFind = (e) => {
-    setFind(e.target.value);
+    setFilters((prev) => ({ ...prev, find: e.target.value }));
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+    setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
   const handleSortChange = (e) => {
-    setOrder(e.target.value);
+    setFilters((prev) => ({ ...prev, order: e.target.value }));
   };
 
   return (
     <MainWrapper title="Articulos">
-      <div className="flex justify-between items-center mb-4">
-        <Searcher value={find} onChange={handleChangeFind} />
-        <Select value={order} options={options} onChange={handleSortChange} />
-      </div>
+      <header className="flex justify-between items-center mb-4">
+        <Searcher value={filters.find} onChange={handleChangeFind} />
+        <Select value={filters.order} options={options} onChange={handleSortChange} />
+      </header>
+
       <section className="space-y-8">
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
-        ))}
+        {loading ? (
+          <p className="text-center text-gray-500">Cargando...</p>
+        ) : articles.length > 0 ? (
+          articles.map((article) => <ArticleCard key={article.id} article={article} />)
+        ) : (
+          <p className="text-center text-gray-500">No hay artículos disponibles</p>
+        )}
       </section>
-      <div className="flex justify-center mt-8">
+
+      <footer className="flex justify-center mt-8">
         <Pagination
-          current={page}
+          current={filters.page}
           total={totalArticles}
-          pageSize={limit}
+          pageSize={filters.limit}
           onChange={handlePageChange}
           showSizeChanger={false}
           locale={esES}
           showTotal={(total, range) => `Mostrando ${range[0]}-${range[1]} de ${total} artículos`}
+          aria-label="Paginación de artículos"
         />
-      </div>
+      </footer>
     </MainWrapper>
   );
 }

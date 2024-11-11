@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 import UserService from "../api/services/UserService";
@@ -8,10 +9,12 @@ import Button from "../components/common/inputs/Button";
 import FormControl from "../components/common/inputs/FormControl";
 import Input from "../components/common/inputs/Input";
 import Label from "../components/common/inputs/Label";
+import { UserContext } from "../components/contexts/UserContext";
 import AuthWrapper from "../components/wrappers/AuthWrapper";
 
 function Login() {
   const navigate = useNavigate();
+  const { setToken, setId } = useContext(UserContext);
   const [data, setData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -28,7 +31,10 @@ function Login() {
         return;
       }
 
-      localStorage.setItem("authToken", response.data);
+      const decodedToken = jwtDecode(response.data);
+      console.log(decodedToken);
+      setId(decodedToken.id);
+      setToken(response.data);
 
       toast.success("¡Bienvenido de nuevo! Has iniciado sesión exitosamente.", {
         autoClose: 1000,
@@ -64,6 +70,14 @@ function Login() {
 
         <Button type="submit">Acceder</Button>
       </form>
+      <div className="mt-4 text-center">
+        <p>
+          ¿Aún no tienes cuenta?{" "}
+          <Link to="/register" className="text-blue-600">
+            Crea una ahora
+          </Link>
+        </p>
+      </div>
       <ToastContainer position="top-right" autoClose={3000} />
     </AuthWrapper>
   );

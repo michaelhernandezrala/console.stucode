@@ -15,6 +15,7 @@ export default [
   {
     path: "/users/:userId/articles/:articleId",
     element: <Article />,
+    errorElement: <Home />,
   },
   { path: "/", element: <Home /> },
 ];

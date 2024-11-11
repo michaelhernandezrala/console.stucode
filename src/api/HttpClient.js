@@ -26,7 +26,7 @@ HttpClient.interceptors.response.use(
       localStorage.removeItem("authToken");
     }
 
-    return Promise.reject(error.response.data);
+    return Promise.reject(error.response);
   },
 );
 
