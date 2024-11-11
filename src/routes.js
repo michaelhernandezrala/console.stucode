@@ -2,6 +2,7 @@ import Article from "./pages/Article.js";
 import Home from "./pages/Home.js";
 import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
+import Users from "./pages/Users.js";
 
 export default [
   {
@@ -16,6 +17,10 @@ export default [
     path: "/users/:userId/articles/:articleId",
     element: <Article />,
     errorElement: <Home />,
+  },
+  {
+    path: "/users",
+    element: <Users />,
   },
   { path: "/", element: <Home /> },
 ];

@@ -34,4 +34,18 @@ const findById = async (id) => {
   return HttpClient.get(`/${Endpoints.USERS}/${id}`);
 };
 
-export default { register, login, findById };
+/**
+ * Fetches a list of users with a count, applying optional filters.
+ *
+ * @param {object} filters - Optional filters to apply to the query.
+ * @param {number} [filters.page] - The page number for pagination.
+ * @param {number} [filters.limit] - The maximum number of results per page.
+ * @param {string} [filters.order] - The order in which to sort results.
+ * @param {string} [filters.find] - A search term to filter results.
+ * @returns {Promise<object>} - The response object containing the count and list of users.
+ */
+const findAndCountAll = async (filters) => {
+  return HttpClient.get(`/${Endpoints.USERS}`, { params: filters });
+};
+
+export default { register, login, findById, findAndCountAll };
