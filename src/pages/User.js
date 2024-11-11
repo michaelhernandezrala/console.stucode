@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import Modal from "react-modal";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import remarkGfm from "remark-gfm";
 
 import UserService from "../api/services/UserService";
@@ -40,6 +40,7 @@ function User() {
       Modal.setAppElement("#root");
 
       const userResponse = await UserService.findById(userId);
+      console.log(userResponse);
 
       setUser(userResponse.data);
       setEditedUser({
@@ -106,7 +107,9 @@ function User() {
 
         <footer className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
           <StatCard label="Seguidores" value={user?.followers ?? 0} />
-          <StatCard label="Artículos" value={user?.articles ?? 0} />
+          <Link to={`/users/${userId}/articles`}>
+            <StatCard label="Artículos" value={user?.articles ?? 0} />
+          </Link>
           <StatCard label="Favoritos" value={user?.favorites ?? 0} />
         </footer>
       </article>

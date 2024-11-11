@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 function Row({ item }) {
+  console.log(item);
   const navigate = useNavigate();
   const formattedDate = new Date(item.createdAt).toLocaleDateString("es-ES", {
     year: "numeric",
@@ -26,7 +27,7 @@ function Row({ item }) {
         <div className="text-sm text-gray-900">{formattedDate}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">0</div>
+        <div className="text-sm text-gray-900">{item.articles}</div>
       </td>
     </tr>
   );
@@ -38,6 +39,7 @@ Row.propTypes = {
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    articles: PropTypes.number.isRequired,
   }).isRequired,
 };
 
