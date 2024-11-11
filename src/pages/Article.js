@@ -59,7 +59,6 @@ function Article() {
       if (response.statusCode === StatusCodes.OK) {
         navigate("/");
       }
-      console.log(response);
     } catch (error) {
       console.error("Error deleting article", error);
     }
@@ -79,7 +78,6 @@ function Article() {
         setIsModalOpen(false);
         return;
       }
-      console.log(response);
     } catch (error) {
       console.error("Error updating article", error);
     }

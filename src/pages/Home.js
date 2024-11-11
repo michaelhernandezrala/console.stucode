@@ -16,7 +16,7 @@ const cleanFilters = (filters) => {
 function Home() {
   const [articles, setArticles] = useState([]);
   const [totalArticles, setTotalArticles] = useState(0);
-  const [filters, setFilters] = useState({ find: "", limit: 10, page: 0, order: "a-z" });
+  const [filters, setFilters] = useState({ find: "", limit: 10, page: 1, order: "a-z" });
   const [loading, setLoading] = useState(false);
 
   const options = [

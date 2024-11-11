@@ -32,7 +32,6 @@ function Login() {
       }
 
       const decodedToken = jwtDecode(response.data);
-      console.log(decodedToken);
       setId(decodedToken.id);
       setToken(response.data);
 

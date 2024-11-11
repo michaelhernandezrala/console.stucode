@@ -48,4 +48,18 @@ const findAndCountAll = async (filters) => {
   return HttpClient.get(`/${Endpoints.USERS}`, { params: filters });
 };
 
-export default { register, login, findById, findAndCountAll };
+/**
+ * Updates a specific user by its ID.
+ *
+ * @param {string} userId - The ID of the user.
+ * @param {object} data - The data to update the user with.
+ * @param {string} data.name - The new name for the user.
+ * @param {string} data.biography - The new biography for the user.
+ * @param {string} data.image - The new image URL for the user.
+ * @returns {Promise<object>} - The response object containing the updated user details.
+ */
+const update = async (userId, data) => {
+  return HttpClient.put(`/${Endpoints.USERS}/${userId}`, data);
+};
+
+export default { register, login, findById, findAndCountAll, update };

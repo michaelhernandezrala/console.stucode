@@ -23,7 +23,7 @@ const cleanFilters = (filters) => {
 function Users() {
   const [users, setUsers] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
-  const [filters, setFilters] = useState({ find: "", limit: 10, page: 0, order: "a-z" });
+  const [filters, setFilters] = useState({ find: "", limit: 5, page: 1, order: "a-z" });
   const [loading, setLoading] = useState(false);
 
   const options = [
@@ -36,7 +36,6 @@ function Users() {
 
     const cleanedFilters = cleanFilters(filters);
     const response = await UserService.findAndCountAll(cleanedFilters);
-    console.log(response);
     setUsers(response.data);
     setTotalUsers(response.count);
 

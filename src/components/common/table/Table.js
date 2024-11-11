@@ -16,7 +16,7 @@ function Table({ headers, rows }) {
 Table.propTypes = {
   headers: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
+      key: PropTypes.number.isRequired,
       label: PropTypes.string.isRequired,
     }),
   ).isRequired,
