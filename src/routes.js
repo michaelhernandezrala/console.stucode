@@ -7,6 +7,7 @@ import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
 import User from "./pages/User.js";
 import Users from "./pages/Users.js";
+import ProtectedRoute from "./ProtectedRoute.js";
 
 export default [
   {
@@ -23,26 +24,58 @@ export default [
       },
       {
         path: "/users/:userId/articles/:articleId",
-        element: <Article />,
+        element: (
+          <ProtectedRoute>
+            <Article />,
+          </ProtectedRoute>
+        ),
         errorElement: <Home />,
       },
       {
         path: "/users/:userId/articles",
-        element: <Articles />,
+        element: (
+          <ProtectedRoute>
+            <Articles />,
+          </ProtectedRoute>
+        ),
+        errorElement: <Home />,
       },
       {
         path: "/users",
-        element: <Users />,
+        element: (
+          <ProtectedRoute>
+            <Users />
+          </ProtectedRoute>
+        ),
+        errorElement: <Home />,
       },
       {
         path: "/users/:userId",
-        element: <User />,
+        element: (
+          <ProtectedRoute>
+            <User />
+          </ProtectedRoute>
+        ),
+        errorElement: <Home />,
       },
       {
         path: "/users/:userId/favorites",
-        element: <Favorites />,
+        element: (
+          <ProtectedRoute>
+            <Favorites />
+          </ProtectedRoute>
+        ),
+        errorElement: <Home />,
       },
-      { path: "/", element: <Home /> },
+      {
+        path: "/",
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+        errorElement: <Login />,
+      },
     ],
   },
 ];

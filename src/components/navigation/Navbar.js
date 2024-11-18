@@ -10,7 +10,7 @@ export default function Navbar() {
     {
       id: 1,
       label: "Inicio",
-      to: "/",
+      link: "/",
     },
     {
       id: 2,

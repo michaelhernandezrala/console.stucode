@@ -10,8 +10,22 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      const decodedToken = jwtDecode(token);
-      setId(decodedToken.id);
+      try {
+        const decodedToken = jwtDecode(token);
+
+        if (decodedToken.exp * 1000 < Date.now()) {
+          setToken(null);
+          setId(null);
+          localStorage.removeItem("authToken");
+        } else {
+          setId(decodedToken.id);
+        }
+      } catch (error) {
+        console.error("Token inválido o error al decodificar:", error);
+        setToken(null);
+        setId(null);
+        localStorage.removeItem("authToken");
+      }
     }
   }, [token]);
 

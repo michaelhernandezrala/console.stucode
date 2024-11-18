@@ -34,6 +34,7 @@ function Login() {
       const decodedToken = jwtDecode(response.data);
       setId(decodedToken.id);
       setToken(response.data);
+      localStorage.setItem("authToken", response.data);
 
       toast.success("¡Bienvenido de nuevo! Has iniciado sesión exitosamente.", {
         autoClose: 1000,

@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiMenu, FiUser, FiX } from "react-icons/fi";
 
+import { Link } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext";
 import MenuItem from "./MenuItem";
 
 function Menu({ options }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { id } = useContext(UserContext);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,18 +34,18 @@ function Menu({ options }) {
 
             {userMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1">
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  onClick={() => alert("Ver perfil")}
+                <Link
+                  className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-500 transition-colors duration-300"
+                  to={`/users/${id}`}
                 >
                   Ver perfil
-                </button>
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                </Link>
+                <Link
+                  className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-500 transition-colors duration-300"
                   onClick={() => alert("Cerrar sesión")}
                 >
                   Cerrar sesión
-                </button>
+                </Link>
               </div>
             )}
           </div>
@@ -67,18 +70,18 @@ function Menu({ options }) {
         <div className="sm:hidden">
           <div className="border-t border-gray-200 pt-4 pb-3">
             <div className="mt-3 space-y-1">
-              <button
-                className="block px-4 py-2 text-base font-small text-gray-700 hover:bg-gray-100 w-full text-left"
-                onClick={() => alert("Ver perfil")}
+              <Link
+                className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-500 transition-colors duration-300"
+                to={`/users/${id}`}
               >
                 Ver perfil
-              </button>
-              <button
-                className="block px-4 py-2 text-base font-small text-gray-700 hover:bg-gray-100 w-full text-left"
+              </Link>
+              <Link
+                className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-500 transition-colors duration-300"
                 onClick={() => alert("Cerrar sesión")}
               >
                 Cerrar sesión
-              </button>
+              </Link>
             </div>
           </div>
         </div>
