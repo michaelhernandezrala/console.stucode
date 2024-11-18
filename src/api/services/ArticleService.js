@@ -51,4 +51,21 @@ const deleteById = async (userId, articleId) => {
   return HttpClient.delete(`/${Endpoints.USERS}/${userId}/${Endpoints.ARTICLES}/${articleId}`);
 };
 
-export default { findAndCountAll, findById, update, deleteById };
+/**
+ * Fetches a list of favorite articles for a specific user.
+ *
+ * @param {string} userId - The ID of the user whose favorite articles are being retrieved.
+ * @param {object} filters - Optional filters to apply to the query.
+ * @param {number} [filters.page] - The page number for pagination.
+ * @param {number} [filters.limit] - The maximum number of results per page.
+ * @param {string} [filters.order] - The order in which to sort results.
+ * @param {string} [filters.find] - A search term to filter results.
+ * @returns {Promise<Object>} - The response object containing the list of favorite articles.
+ */
+const findAndCountAllFavorites = async (userId, filters) => {
+  return HttpClient.get(`/${Endpoints.USERS}/${userId}/${Endpoints.FAVORITES}`, {
+    params: filters,
+  });
+};
+
+export default { findAndCountAll, findById, update, deleteById, findAndCountAllFavorites };

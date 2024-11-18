@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 function Row({ item }) {
-  console.log(item);
   const navigate = useNavigate();
   const formattedDate = new Date(item.createdAt).toLocaleDateString("es-ES", {
     year: "numeric",

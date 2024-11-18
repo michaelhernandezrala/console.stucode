@@ -1,6 +1,8 @@
 import Article from "./pages/Article.js";
 import Articles from "./pages/Articles.js";
+import Favorites from "./pages/Favorites.js";
 import Home from "./pages/Home.js";
+import Layout from "./pages/Layout.js";
 import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
 import User from "./pages/User.js";
@@ -8,29 +10,39 @@ import Users from "./pages/Users.js";
 
 export default [
   {
-    path: "/register",
-    element: <Register />,
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/users/:userId/articles/:articleId",
+        element: <Article />,
+        errorElement: <Home />,
+      },
+      {
+        path: "/users/:userId/articles",
+        element: <Articles />,
+      },
+      {
+        path: "/users",
+        element: <Users />,
+      },
+      {
+        path: "/users/:userId",
+        element: <User />,
+      },
+      {
+        path: "/users/:userId/favorites",
+        element: <Favorites />,
+      },
+      { path: "/", element: <Home /> },
+    ],
   },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/users/:userId/articles/:articleId",
-    element: <Article />,
-    errorElement: <Home />,
-  },
-  {
-    path: "/users/:userId/articles",
-    element: <Articles />,
-  },
-  {
-    path: "/users",
-    element: <Users />,
-  },
-  {
-    path: "/users/:userId",
-    element: <User />,
-  },
-  { path: "/", element: <Home /> },
 ];

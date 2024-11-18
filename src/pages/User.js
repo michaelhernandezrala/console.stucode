@@ -40,7 +40,6 @@ function User() {
       Modal.setAppElement("#root");
 
       const userResponse = await UserService.findById(userId);
-      console.log(userResponse);
 
       setUser(userResponse.data);
       setEditedUser({
@@ -48,8 +47,6 @@ function User() {
         biography: userResponse.data.biography,
         image: userResponse.data.image,
       });
-
-      setUser(userResponse.data);
     };
 
     fetchArticle();
@@ -110,7 +107,9 @@ function User() {
           <Link to={`/users/${userId}/articles`}>
             <StatCard label="Artículos" value={user?.articles ?? 0} />
           </Link>
-          <StatCard label="Favoritos" value={user?.favorites ?? 0} />
+          <Link to={`/users/${userId}/favorites`}>
+            <StatCard label="Favoritos" value={user?.favorites ?? 0} />
+          </Link>
         </footer>
       </article>
 

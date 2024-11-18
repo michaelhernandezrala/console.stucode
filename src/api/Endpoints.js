@@ -4,6 +4,8 @@ const Endpoints = {
 
   USERS: "users",
   ARTICLES: "articles",
+
+  FAVORITES: "favorites",
 };
 
 export default Endpoints;

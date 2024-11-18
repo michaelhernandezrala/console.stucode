@@ -1,27 +1,37 @@
-import { Link } from "react-router-dom";
-
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext.js";
 import NavigationWrapper from "../wrappers/NavigationWrapper.js";
-import NavItem from "./NavItem.js";
-import NavItemGroup from "./NavItemGroup.js";
+import Menu from "./Menu.js";
 
-function Navbar() {
+export default function Navbar() {
+  const { id } = useContext(UserContext);
+
+  const options = [
+    {
+      id: 1,
+      label: "Inicio",
+      to: "/",
+    },
+    {
+      id: 2,
+      label: "Artículos",
+      link: "/",
+    },
+    {
+      id: 3,
+      label: "Usuarios",
+      link: "/users",
+    },
+    {
+      id: 4,
+      label: "Favoritos",
+      link: `/users/${id}/favorites`,
+    },
+  ];
+
   return (
     <NavigationWrapper>
-      <NavItemGroup>
-        <NavItem to="/articles">Artículos</NavItem>
-        <NavItem to="/favorites">Favoritos</NavItem>
-      </NavItemGroup>
-
-      <Link to="/" className="text-5xl font-extrabold text-blue-500 duration-300 hover:scale-105">
-        StuCode
-      </Link>
-
-      <NavItemGroup>
-        <NavItem to="/users"> Usuarios</NavItem>
-        <NavItem to="/profile"> Perfil</NavItem>
-      </NavItemGroup>
+      <Menu options={options} />
     </NavigationWrapper>
   );
 }
-
-export default Navbar;
