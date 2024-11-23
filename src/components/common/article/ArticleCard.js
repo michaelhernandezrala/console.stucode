@@ -21,7 +21,7 @@ function ArticleCard({ article }) {
             <div className="mt-6 flex items-center text-sm text-gray-500 space-x-4">
               <div className="flex items-center">
                 <AiOutlineLike className="w-4 h-4 mr-1" />
-                <span>{article.likes}</span>
+                <span>{article.likes ?? 0}</span>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@ ArticleCard.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     image: PropTypes.string,
-    likes: PropTypes.number.isRequired,
+    likes: PropTypes.number,
   }).isRequired,
 };
 

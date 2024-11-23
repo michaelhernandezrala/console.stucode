@@ -22,6 +22,7 @@ function Article() {
   const [user, setUser] = useState({});
   const [editedArticle, setEditedArticle] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
 
   const canEditOrDelete = userId === id;
 
@@ -29,7 +30,6 @@ function Article() {
     const fetchArticle = async () => {
       Modal.setAppElement("#root");
       const articleResponse = await ArticleService.findById({ userId, articleId });
-
       const userResponse = await UserService.findById(userId);
 
       setArticle(articleResponse.data);
@@ -40,10 +40,15 @@ function Article() {
       });
 
       setUser(userResponse.data);
+
+      console.log(id);
+      const likeStatus = await ArticleService.checkIfFavorite(id, articleId);
+      console.log(likeStatus);
+      setHasLiked(likeStatus.data.isFavorite);
     };
 
     fetchArticle();
-  }, [userId, articleId]);
+  }, [userId, articleId, hasLiked]);
 
   const handleChange = (e) => {
     setEditedArticle({ ...editedArticle, [e.target.name]: e.target.value });
@@ -83,15 +88,28 @@ function Article() {
     }
   };
 
+  const handleLike = async () => {
+    await ArticleService.likeArticle(id, articleId);
+    setHasLiked(true);
+  };
+
+  const handleUnlike = async () => {
+    await ArticleService.unlikeArticle(id, articleId);
+    setHasLiked(false);
+  };
+
   return (
     <MainWrapper>
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">{article.title}</h1>
           <div className="flex items-center space-x-4">
-            <button className="flex items-center text-gray-600 hover:text-blue-600">
-              <AiOutlineLike className="w-5 h-5 mr-1" />
-              <span>{article.likes}</span>
+            <button
+              onClick={hasLiked ? handleUnlike : handleLike}
+              className="flex items-center text-gray-600 hover:text-blue-600"
+            >
+              <AiOutlineLike className={`w-5 h-5 mr-1 ${hasLiked ? "text-blue-600" : ""}`} />
+              <span>{article.likes ?? 0}</span>
             </button>
             <div className="flex items-center space-x-1">
               {canEditOrDelete && (

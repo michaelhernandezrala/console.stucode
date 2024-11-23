@@ -1,11 +1,15 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/navigation/Navbar";
 
 function Layout() {
+  const location = useLocation();
+
+  const excludedRoutes = ["/login", "/register"];
+
   return (
     <main>
-      <Navbar />
+      {!excludedRoutes.includes(location.pathname) && <Navbar />}
       <Outlet />
     </main>
   );

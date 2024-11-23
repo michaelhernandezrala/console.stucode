@@ -1,6 +1,10 @@
 import Endpoints from "../Endpoints";
 import HttpClient from "../HttpClient";
 
+const likeArticle = async (userId, articleId) => {
+  return HttpClient.post(`/${Endpoints.USERS}/${userId}/${Endpoints.LIKES}`, { articleId });
+};
+
 /**
  * Fetches a list of articles with a count, applying optional filters.
  *
@@ -68,4 +72,35 @@ const findAndCountAllFavorites = async (userId, filters) => {
   });
 };
 
-export default { findAndCountAll, findById, update, deleteById, findAndCountAllFavorites };
+/**
+ * Checks if a specific article is marked as favorite by the user.
+ *
+ * @param {string} userId - The ID of the user.
+ * @param {string} articleId - The ID of the article.
+ * @returns {Promise<object>} - The response object containing the `isFavorite` status.
+ */
+const checkIfFavorite = async (userId, articleId) => {
+  return HttpClient.get(`/${Endpoints.USERS}/${userId}/${Endpoints.LIKES}/${articleId}`);
+};
+
+/**
+ * Removes a like from a specific article for a user.
+ *
+ * @param {string} userId - The ID of the user removing the like.
+ * @param {string} articleId - The ID of the article to unlike.
+ * @returns {Promise<object>} - The response object indicating the result of the unlike operation.
+ */
+const unlikeArticle = async (userId, articleId) => {
+  return HttpClient.delete(`/${Endpoints.USERS}/${userId}/${Endpoints.LIKES}/${articleId}`);
+};
+
+export default {
+  likeArticle,
+  findAndCountAll,
+  findById,
+  update,
+  deleteById,
+  findAndCountAllFavorites,
+  checkIfFavorite,
+  unlikeArticle,
+};

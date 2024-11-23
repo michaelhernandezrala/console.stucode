@@ -6,6 +6,7 @@ const Endpoints = {
   ARTICLES: "articles",
 
   FAVORITES: "favorites",
+  LIKES: "likes",
 };
 
 export default Endpoints;

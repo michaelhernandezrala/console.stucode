@@ -7,6 +7,7 @@ import ArticleService from "../api/services/ArticleService";
 import ArticleCard from "../components/common/article/ArticleCard";
 import Searcher from "../components/common/filters/Searcher";
 import Select from "../components/common/filters/Select";
+
 import MainWrapper from "../components/wrappers/MainWrapper";
 
 const cleanFilters = (filters) => {
@@ -59,7 +60,6 @@ function Articles() {
         <Searcher value={filters.find} onChange={handleChangeFind} />
         <Select value={filters.order} options={options} onChange={handleSortChange} />
       </header>
-
       <section className="space-y-8">
         {loading ? (
           <p className="text-center text-gray-500">Cargando...</p>
@@ -69,7 +69,6 @@ function Articles() {
           <p className="text-center text-gray-500">No hay artículos disponibles</p>
         )}
       </section>
-
       <footer className="flex justify-center mt-8">
         <Pagination
           current={filters.page}
