@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import Modal from "react-modal";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import remarkGfm from "remark-gfm";
 
 import UserService from "../api/services/UserService";
@@ -81,7 +82,7 @@ function User() {
         return;
       }
     } catch (error) {
-      console.error("Error updating article", error);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 
@@ -92,7 +93,7 @@ function User() {
         navigate("/login");
       }
     } catch (error) {
-      console.error("Error deleting article", error);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 
@@ -158,6 +159,8 @@ function User() {
           </Link>
         </footer>
       </article>
+
+      <ToastContainer position="top-right" autoClose={3000} />
 
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
         <form className="space-y-4">

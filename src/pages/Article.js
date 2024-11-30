@@ -4,6 +4,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import Markdown from "react-markdown";
 import Modal from "react-modal";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import remarkGfm from "remark-gfm";
 
 import ArticleService from "../api/services/ArticleService";
@@ -63,7 +64,7 @@ function Article() {
         navigate("/");
       }
     } catch (error) {
-      console.error("Error deleting article", error);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 
@@ -82,7 +83,7 @@ function Article() {
         return;
       }
     } catch (error) {
-      console.error("Error updating article", error);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 
@@ -139,6 +140,8 @@ function Article() {
           </Link>
         </footer>
       </article>
+
+      <ToastContainer position="top-right" autoClose={3000} />
 
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
         <form className="space-y-4">
