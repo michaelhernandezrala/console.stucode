@@ -1,3 +1,5 @@
+import _ from "lodash-es";
+
 import Endpoints from "../Endpoints";
 import HttpClient from "../HttpClient";
 
@@ -48,6 +50,10 @@ const findAndCountAll = async (filters) => {
   return HttpClient.get(`/${Endpoints.USERS}`, { params: filters });
 };
 
+const listFollowers = async (userId, filters) => {
+  return HttpClient.get(`/${Endpoints.USERS}/${userId}/followers`, { params: filters });
+};
+
 /**
  * Updates a specific user by its ID.
  *
@@ -62,4 +68,32 @@ const update = async (userId, data) => {
   return HttpClient.put(`/${Endpoints.USERS}/${userId}`, data);
 };
 
-export default { register, login, findById, findAndCountAll, update };
+const deleteById = async (userId) => {
+  return HttpClient.delete(`/${Endpoints.USERS}/${userId}`);
+};
+
+const checkIfFollowing = async (id, userId) => {
+  const followers = await HttpClient.get(`${Endpoints.USERS}/${userId}/${Endpoints.FOLLOWERS}`);
+  return _.some(followers.data, { id });
+};
+
+const followUser = async (id, payload) => {
+  return HttpClient.post(`${Endpoints.USERS}/${id}/${Endpoints.FOLLOWERS}`, payload);
+};
+
+const unfollowUser = async (id, followerId) => {
+  return HttpClient.delete(`${Endpoints.USERS}/${id}/${Endpoints.FOLLOWERS}/${followerId}`);
+};
+
+export default {
+  register,
+  login,
+  findById,
+  findAndCountAll,
+  listFollowers,
+  update,
+  deleteById,
+  checkIfFollowing,
+  followUser,
+  unfollowUser,
+};

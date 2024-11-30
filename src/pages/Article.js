@@ -41,9 +41,7 @@ function Article() {
 
       setUser(userResponse.data);
 
-      console.log(id);
       const likeStatus = await ArticleService.checkIfFavorite(id, articleId);
-      console.log(likeStatus);
       setHasLiked(likeStatus.data.isFavorite);
     };
 

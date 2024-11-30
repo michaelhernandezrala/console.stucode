@@ -1,6 +1,7 @@
 import Article from "./pages/Article.js";
 import Articles from "./pages/Articles.js";
 import Favorites from "./pages/Favorites.js";
+import Followers from "./pages/Followers.js";
 import Home from "./pages/Home.js";
 import Layout from "./pages/Layout.js";
 import Login from "./pages/Login.js";
@@ -63,6 +64,15 @@ export default [
         element: (
           <ProtectedRoute>
             <Favorites />
+          </ProtectedRoute>
+        ),
+        errorElement: <Home />,
+      },
+      {
+        path: "/users/:userId/followers",
+        element: (
+          <ProtectedRoute>
+            <Followers />
           </ProtectedRoute>
         ),
         errorElement: <Home />,

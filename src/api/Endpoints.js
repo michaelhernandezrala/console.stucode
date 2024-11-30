@@ -3,6 +3,7 @@ const Endpoints = {
   LOGIN: "users/login",
 
   USERS: "users",
+  FOLLOWERS: "followers",
   ARTICLES: "articles",
 
   FAVORITES: "favorites",

@@ -1,15 +1,16 @@
 import { StatusCodes } from "http-status-codes";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import Modal from "react-modal";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import remarkGfm from "remark-gfm";
 
 import UserService from "../api/services/UserService";
 import FormControl from "../components/common/inputs/FormControl";
 import Input from "../components/common/inputs/Input";
 import Label from "../components/common/inputs/Label";
+import { UserContext } from "../components/contexts/UserContext";
 import MainWrapper from "../components/wrappers/MainWrapper";
 
 const StatCard = ({ label, value }) => (
@@ -27,13 +28,15 @@ StatCard.propTypes = {
 };
 
 function User() {
-  // const { id } = useContext(UserContext);
+  const { id } = useContext(UserContext);
   const { userId } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [editedUser, setEditedUser] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasFollow, setHasFollow] = useState(false);
 
-  // const canEditOrDelete = userId === id;
+  const canEditOrDelete = userId === id;
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -47,10 +50,13 @@ function User() {
         biography: userResponse.data.biography,
         image: userResponse.data.image,
       });
+
+      const followStatus = await UserService.checkIfFollowing(id, userId);
+      setHasFollow(followStatus);
     };
 
     fetchArticle();
-  }, [userId]);
+  }, [userId, hasFollow, isModalOpen]);
 
   const handleChange = (e) => {
     setEditedUser({ ...editedUser, [e.target.name]: e.target.value });
@@ -79,6 +85,27 @@ function User() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await UserService.deleteById(userId);
+      if (response.statusCode === StatusCodes.OK) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error deleting article", error);
+    }
+  };
+
+  const handleFollow = async () => {
+    await UserService.followUser(userId, { followerId: id });
+    setHasFollow(true);
+  };
+
+  const handleUnfollow = async () => {
+    await UserService.unfollowUser(userId, id);
+    setHasFollow(false);
+  };
+
   return (
     <MainWrapper>
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -91,11 +118,27 @@ function User() {
             </div>
           </div>
 
-          {/* {canEditOrDelete && ( */}
-          <button onClick={handleEdit} className="bg-blue-600 text-white px-4 py-1 hover:bg-blue-700">
-            Editar
-          </button>
-          {/* )} */}
+          <div className="flex items-center space-x-1">
+            {!canEditOrDelete && (
+              <button
+                onClick={hasFollow ? handleUnfollow : handleFollow}
+                className={`px-4 py-2 ${hasFollow ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"} text-white`}
+              >
+                {hasFollow ? "Unfollow" : "Follow"}
+              </button>
+            )}
+
+            {canEditOrDelete && (
+              <>
+                <button onClick={handleEdit} className="bg-blue-600 text-white px-4 py-1 hover:bg-blue-700">
+                  Editar
+                </button>
+                <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-1 hover:bg-red-700">
+                  Eliminar
+                </button>
+              </>
+            )}
+          </div>
         </header>
 
         <section className="mb-8">
@@ -103,7 +146,10 @@ function User() {
         </section>
 
         <footer className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-          <StatCard label="Seguidores" value={user?.followers ?? 0} />
+          <Link to={`/users/${userId}/followers`}>
+            {" "}
+            <StatCard label="Seguidores" value={user?.followers ?? 0} />
+          </Link>
           <Link to={`/users/${userId}/articles`}>
             <StatCard label="Artículos" value={user?.articles ?? 0} />
           </Link>

@@ -5,6 +5,10 @@ const likeArticle = async (userId, articleId) => {
   return HttpClient.post(`/${Endpoints.USERS}/${userId}/${Endpoints.LIKES}`, { articleId });
 };
 
+const create = async (userId, data) => {
+  return HttpClient.post(`/${Endpoints.USERS}/${userId}/articles`, data);
+};
+
 /**
  * Fetches a list of articles with a count, applying optional filters.
  *
@@ -96,6 +100,7 @@ const unlikeArticle = async (userId, articleId) => {
 
 export default {
   likeArticle,
+  create,
   findAndCountAll,
   findById,
   update,

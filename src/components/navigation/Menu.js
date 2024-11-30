@@ -2,14 +2,24 @@ import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 import { FiMenu, FiUser, FiX } from "react-icons/fi";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import MenuItem from "./MenuItem";
 
 function Menu({ options }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const { id } = useContext(UserContext);
+  const { id, setId, setToken } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setId(null);
+    setToken(null);
+
+    localStorage.removeItem("authToken");
+
+    navigate("/login");
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +52,7 @@ function Menu({ options }) {
                 </Link>
                 <Link
                   className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-500 transition-colors duration-300"
-                  onClick={() => alert("Cerrar sesión")}
+                  onClick={handleLogout}
                 >
                   Cerrar sesión
                 </Link>
@@ -78,7 +88,7 @@ function Menu({ options }) {
               </Link>
               <Link
                 className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-500 transition-colors duration-300"
-                onClick={() => alert("Cerrar sesión")}
+                onClick={handleLogout}
               >
                 Cerrar sesión
               </Link>
