@@ -1,8 +1,8 @@
 import Pagination from "rc-pagination";
 import esES from "rc-pagination/lib/locale/es_ES";
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
+
 import ArticleService from "../api/services/ArticleService";
 import ArticleCard from "../components/common/article/ArticleCard";
 import Searcher from "../components/common/filters/Searcher";
@@ -39,7 +39,7 @@ function Favorites() {
 
   useEffect(() => {
     fetchArticles();
-  }, [filters]);
+  }, [filters.find, filters.limit, filters.page, filters.order]);
 
   const handleChangeFind = (e) => {
     setFilters((prev) => ({ ...prev, find: e.target.value }));

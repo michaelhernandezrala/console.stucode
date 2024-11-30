@@ -2,6 +2,7 @@ import Pagination from "rc-pagination";
 import esES from "rc-pagination/lib/locale/es_ES";
 import { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
+import { toast, ToastContainer } from "react-toastify";
 
 import ArticleService from "../api/services/ArticleService";
 import ArticleCard from "../components/common/article/ArticleCard";
@@ -47,7 +48,7 @@ function Home() {
 
   useEffect(() => {
     fetchArticles();
-  }, [filters]);
+  }, [filters.find, filters.limit, filters.page, filters.order]);
 
   const handleChangeFind = (e) => {
     setFilters((prev) => ({ ...prev, find: e.target.value }));
@@ -82,7 +83,7 @@ function Home() {
       setNewArticle({ title: "", image: "", content: "" });
       setArticles([...articles, response.data]);
     } catch (error) {
-      console.error("Error updating article", error);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 
@@ -125,6 +126,8 @@ function Home() {
           aria-label="Paginación de artículos"
         />
       </footer>
+
+      <ToastContainer position="top-right" autoClose={3000} />
 
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
         <form className="space-y-4">

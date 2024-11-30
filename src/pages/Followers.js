@@ -1,8 +1,8 @@
 import Pagination from "rc-pagination";
 import esES from "rc-pagination/lib/locale/es_ES";
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
+
 import UserService from "../api/services/UserService";
 import Searcher from "../components/common/filters/Searcher";
 import Select from "../components/common/filters/Select";
@@ -46,7 +46,7 @@ function Followers() {
 
   useEffect(() => {
     fetchUsers();
-  }, [filters]);
+  }, [filters.find, filters.limit, filters.page, filters.order]);
 
   const handleChangeFind = (e) => {
     setFilters((prev) => ({ ...prev, find: e.target.value }));

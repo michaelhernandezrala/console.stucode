@@ -28,13 +28,14 @@ function Register() {
         return;
       }
       toast.success("¡Bienvenido a StuCode! Tu cuenta ha sido creada exitosamente", {
-        autoClose: 1000,
+        autoClose: 500,
+        hideProgressBar: true,
         onClose: () => {
           navigate("/login");
         },
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 

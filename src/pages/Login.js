@@ -37,13 +37,14 @@ function Login() {
       localStorage.setItem("authToken", response.data);
 
       toast.success("¡Bienvenido de nuevo! Has iniciado sesión exitosamente.", {
-        autoClose: 1000,
+        autoClose: 500,
+        hideProgressBar: true,
         onClose: () => {
           navigate("/");
         },
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
   };
 
