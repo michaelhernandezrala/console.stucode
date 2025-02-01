@@ -78,10 +78,15 @@ function Home() {
     e.preventDefault();
 
     try {
-      const response = await ArticleService.create(id, newArticle);
+      await ArticleService.create(id, newArticle);
+
+      const cleanedFilters = cleanFilters(filters);
+      const updatedArticlesResponse = await ArticleService.findAndCountAll(cleanedFilters);
+
+      setArticles(updatedArticlesResponse.data);
+      setTotalArticles(updatedArticlesResponse.count);
       setIsModalOpen(false);
       setNewArticle({ title: "", image: "", content: "" });
-      setArticles([...articles, response.data]);
     } catch (error) {
       toast.error(error?.data?.message ?? error.message, { autoClose: false });
     }
