@@ -112,7 +112,6 @@ function User() {
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="mb-8 flex justify-between items-center">
           <div className="flex items-center mb-6">
-            <img className="h-24 w-24 rounded-full mr-6" src={user.image} alt={user.name} />
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{user.name}</h1>
               <p className="text-lg text-gray-600">{user.email}</p>
